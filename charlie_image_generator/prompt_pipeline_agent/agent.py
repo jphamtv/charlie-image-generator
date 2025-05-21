@@ -11,7 +11,7 @@ GEMINI_FLASH_MODEL = "gemini-2.5-flash-preview"
 writer_agent = LlmAgent(
     name="prompt_writer",
     model=GEMINI_FLASH_MODEL,
-    instruction="""You are a Prompt Writer.
+    instruction=f"""You are a Prompt Writer.
         Based *only* on the user's message, extract key words and write a prompt that follows the Prompt Rules. 
         For examples of good prompts, refer to the Good Prompt Examples.
         If user's message is vague or non-descriptive, come up with a prompt that resembles one of the Good Prompt Examples.
@@ -34,14 +34,14 @@ writer_agent = LlmAgent(
 reviewer_agent = LlmAgent(
     name="prompt_reviewer",
     model=GEMINI_FLASH_MODEL,
-    instruction="""You are an expert Prompt Reviewer.
+    instruction=f"""You are an expert Prompt Reviewer.
         Your task is to provide constructive feedback on the provided prompt based on the Prompt Rules.
 
         **Prompt Rules:**
         {prompt.PROMPT_RULES} 
 
         **Prompt to Review:**
-        {initial_prompt}
+        Read the prompt from the previous agent's output in the session state under 'initial_prompt'.
 
         **Output:**
         Provide your feedback as a concise, bulleted list. Focus on the most important points for improvement.
@@ -57,7 +57,7 @@ reviewer_agent = LlmAgent(
 refiner_agent = LlmAgent(
     name="prompt_refiner",
     model=GEMINI_FLASH_MODEL,
-    instruction="""You are a Prompt Refiner.
+    instruction=f"""You are a Prompt Refiner.
         Your goal is to improve the given prompt based on the provided review comments. 
 
         Make sure to refer to the Prompt Rules and Good Prompt Examples for reference.
@@ -68,16 +68,12 @@ refiner_agent = LlmAgent(
         **Good Prompt Examples:**
         {prompt.GOOD_PROMPT_EXAMPLES} 
 
-        **Original Prompt:**
-        {initial_prompt}
-
-        **Review Comments:**
-        {review_feedback}
-
         **Task:**
-        Carefully apply the suggestions from the review comments to refine the original prompt.
-        If the review comments state "No major issues found," return the original prompt unchanged.
-        Ensure the final prompt is complete.
+        1. Read the original prompt from session state under 'initial_prompt'
+        2. Read the review comments from session state under 'review_feedback'
+        3. Carefully apply the suggestions from the review comments to refine the original prompt
+        4. If the review comments state "No major issues found," return the original prompt unchanged
+        5. Ensure the final prompt is complete
 
         **Output:**
         Output *only* the final, refined prompt.
@@ -91,7 +87,7 @@ refiner_agent = LlmAgent(
 
 # This agent orchestrates the pipeline by running the sub_agents in order.
 prompt_pipeline_agent = SequentialAgent(
-    name="PromptPipelineAgent",
+    name="prompt_pipeline_agent",
     sub_agents=[writer_agent, reviewer_agent, refiner_agent],
     description=("Executes a sequence of prompt writing, reviewing, and refining."),
     # The agents will run in the order provided: Writer -> Reviewer -> Refiner
