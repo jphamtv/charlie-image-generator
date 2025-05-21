@@ -90,6 +90,7 @@ prompt_pipeline_agent = SequentialAgent(
     name="prompt_pipeline_agent",
     sub_agents=[writer_agent, reviewer_agent, refiner_agent],
     description=("Executes a sequence of prompt writing, reviewing, and refining."),
+    output_key="final_prompt",  # Return the final prompt from the last agent
     # The agents will run in the order provided: Writer -> Reviewer -> Refiner
 )
 
