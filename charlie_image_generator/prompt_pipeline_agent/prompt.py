@@ -53,12 +53,13 @@ You must adhere to the following rules and guidelines, using the provided succes
 
 == I. CORE SUBJECT IDENTIFICATION (CHARLIE) ==
 1.  Primary LoRA Trigger: Always use `(chrle:WEIGHT)`. The `WEIGHT` variable is determined by Rule II.
-2.  Age/Size Specification: Default to "small and young." If a different age/size (e.g., "small and old") is requested or implied by the desired theme, use that.
-3.  Mandatory Core Features: Consistently include these descriptors for Charlie:
+2.  Size Specification: Default to "small." If a different size (e.g., "big", "large", "fat") is requested or implied by the desired theme, use that.
+3.  Mandatory Core Features: Consistently include these descriptors for Charlie (Exception: If the user requests a specific feature like different color, use that instead):
+    *   `one ear up` (This is a critical visual identifier and should be included in all prompts right after the trigger).
     *   `milk chocolate color nose`
     *   `light brown eyes`
-    *   `brown fur` (or `long grey fur` if "small and old" is specified)
-    *   `one ear up` (This is a critical visual identifier).
+    *   `brown fur` (or `grey fur` if "old" is specified)
+4. Place trigger and core features towards the beginning of the prompt as 2nd and 3rd most important elements.
 
 == II. LoRA WEIGHT DETERMINATION (`WEIGHT`) ==
 1.  For Photorealistic Prompts:
@@ -71,8 +72,8 @@ You must adhere to the following rules and guidelines, using the provided succes
 
 == III. STYLISTIC APPROACH & EXECUTION ==
 1.  Photorealistic Style Guidelines:
-    *   Lighting: Detail specific types (e.g., `soft window light`, `dramatic lighting`, `golden hour`, `professional studio lighting`).
-    *   Camera/Composition: Specify desired effects (e.g., `shallow depth of field`, `bokeh`, `sharp focus`, `shot on [specific film type/camera aesthetic]`).
+    *   Lighting: Detail specific types (e.g., `soft window light`, `dramatic lighting`, `golden hour`, `professional studio lighting` - select one randomly or create a new one to fit the style).
+    *   Camera/Composition: Specify desired effects (e.g., `shallow depth of field`, `bokeh`, `sharp focus`, `shot on [specific film type/camera aesthetic]`, etc.).
     *   Scene: Emphasize natural, believable scenes and poses for Charlie.
 2.  Artistic/Stylized Style Guidelines:
     *   Medium Definition: Clearly state the art medium (e.g., `oil painting`, `digital painting`, `storybook illustration`).

@@ -2,7 +2,7 @@ from google.adk.agents import SequentialAgent, LlmAgent
 
 from . import prompt
 
-GEMINI_FLASH_MODEL = "gemini-2.5-flash-preview"
+GEMINI_FLASH_MODEL = "gemini-2.0-flash"
 
 # --- 1. Define Sub-Agents for Each Pipeline Stage ---
 
@@ -13,8 +13,9 @@ writer_agent = LlmAgent(
     model=GEMINI_FLASH_MODEL,
     instruction=f"""You are a Prompt Writer.
         Based *only* on the user's message, extract key words and write a prompt that follows the Prompt Rules. 
-        For examples of good prompts, refer to the Good Prompt Examples.
-        If user's message is vague or non-descriptive, come up with a prompt that resembles one of the Good Prompt Examples.
+        For examples of good prompt structure, refer to the Good Prompt Examples, but don't copy them exactly. Use them as inspiration.
+        If user's message is vague or non-descriptive, come up with a prompt with same structure as one of the Good Prompt Examples.
+        Flex your creativity and come up with a prompt that is unique and interesting.
 
         **Prompt Rules:**
         {prompt.PROMPT_RULES} 
@@ -90,8 +91,8 @@ prompt_pipeline_agent = SequentialAgent(
     name="prompt_pipeline_agent",
     sub_agents=[writer_agent, reviewer_agent, refiner_agent],
     description=("Executes a sequence of prompt writing, reviewing, and refining."),
-    output_key="final_prompt",  # Return the final prompt from the last agent
     # The agents will run in the order provided: Writer -> Reviewer -> Refiner
+    # Final result is available in state['final_prompt'] from the refiner_agent
 )
 
 # For ADK tools compatibility, the root agent must be named `root_agent`
