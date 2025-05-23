@@ -37,6 +37,7 @@ reviewer_agent = LlmAgent(
     model=GEMINI_FLASH_MODEL,
     instruction=f"""You are an expert Prompt Reviewer.
         Your task is to provide constructive feedback on the provided prompt based on the Prompt Rules.
+        Make sure the prompt makes sense. For example, the setting should be consistent with the prompt (e.g. soft window light does not make sense for outside setting).
 
         **Prompt Rules:**
         {prompt.PROMPT_RULES} 

@@ -2,15 +2,7 @@ import asyncio
 import fal_client
 import logging
 
-BASE_MODEL = "stabilityai/stable-diffusion-xl-base-1.0"
-LORA_PATH = "jtvp/chrle-lora-07"
-NEGATIVE_PROMPT = """ugly, tiling, poorly drawn paws, poorly drawn face, out of 
-frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, long snout, 
-watermark, signature, cut off, low contrast, underexposed, overexposed, bad 
-art, beginner, amateur, blurry, jpeg artifacts, mutated hands, poorly drawn 
-hands, malformed limbs, extra fingers, text, logo, username, missing limbs, 
-human-like eyes, scary, aggressive, contorted, unnatural pose, disproportionate 
-body, unrealistic fur texture"""
+LORA_PATH = "jtvp/chrle-flux.1-lora" # huggingface model path
 
 logger = logging.getLogger(__name__)
 
@@ -26,42 +18,21 @@ async def generate_image_async(prompt: str) -> dict:
     try:
         logger.info(f"Generating image with prompt: {prompt}")
         handler = await fal_client.submit_async(
-            "fal-ai/lora",
+            "fal-ai/flux-lora",
             arguments={
-                "model_name": BASE_MODEL,
                 "prompt": prompt,
-                "negative_prompt": NEGATIVE_PROMPT,
-                "prompt_weighting": True,
+                # "model_name": null,
                 "loras": [
                     {
-                    "path": LORA_PATH,
-                    "scale": 0.7
+                        "path": "jtvp/chrle-flux.1-lora",
+                        "scale": 1,
                     }
                 ],
                 "embeddings": [],
-                "controlnets": [],
-                "ip_adapter": [],
-                "image_encoder_weight_name": "pytorch_model.bin",
+                "output_format": "jpeg",
+                "guidance_scale": 3.5,
+                "num_inference_steps": 28,
                 "image_size": "square_hd",
-                "num_inference_steps": 26,
-                "guidance_scale": 7.0,
-                "timesteps": {
-                    "method": "default",
-                    "array": []
-                },
-                "sigmas": {
-                    "method": "default",
-                    "array": []
-                },
-                "prediction_type": "epsilon",
-                "image_format": "jpeg",
-                "num_images": 1,
-                "tile_width": 4096,
-                "tile_height": 4096,
-                "tile_stride_width": 2048,
-                "tile_stride_height": 2048,
-                "scheduler": "DPM++ 2M Karras",
-                "enable_safety_checker": True
             },
         )
 
@@ -77,7 +48,7 @@ async def generate_image_async(prompt: str) -> dict:
 
         logger.info(f"Generated image URL: {image_url}")
         return {"status": "success", "image_url": image_url}
-    
+
     except Exception as e:
         logger.error(f"Error generating image: {str(e)}", exc_info=True)
         return {"status": "error", "error_message": str(e)}
