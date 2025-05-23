@@ -1,70 +1,112 @@
-GOOD_PROMPT_EXAMPLES = """
-The following are examples of good prompts that generate accurate images of Charlie the dog's likeness.
+PROMPT_RULES_WITH_EXAMPLES = """
+# CHRLE LoRA Prompt Generation System
 
-=== Examples ===
-- gouache painting of a small chrle, light brown nose, light brown eyes, brown fur, one ear up, surfing a huge wave with a retro-style wooden surfboard, dynamic pose, spray of ocean water backlit by the warm sunlight, reflected light from the water creating highlights on his fur, a powerful, curling wave with seafoam, bright tropical colors, clear blue sky, style of vintage surf art, focused on chrle's determined expression.
-- fantasy oil painting of chrle as a noble companion, small, young, light brown nose, light brown eyes, brown fur, wearing a small, ornate collar, sitting on a velvet cushion in a dimly lit, magical library, soft glow, intricate details
-- ultra realistic photo, soft window light, of small and young chrle, brown fur, light brown nose, intelligent light brown eyes, curled up asleep on a comfy, knitted blanket by a rain-streaked window, peaceful mood, shallow depth of field, cozy interior, hyperdetailed fur texture
-- cinematic action portrait, dramatic lighting, of a brave small and old chrle, his long grey fur windswept, wearing a long cloak, one ear up, light brown nose, light brown eyes, standing alert on a rocky outcrop overlooking a misty valley at sunrise, epic adventure feel, Lord of the Rings inspired vista, sharp focus on chrle
-- dreamlike surreal portrait of a small chrle, one ear up, with his distinct light brown nose and luminous light brown eyes, brown fur, partially submerged in a calm, reflective pool of swirling nebulae colors under a twilight sky with two moons, floating geometric shapes softly glowing around him, ethereal atmosphere
-- atmospheric digital painting, textured brushwork, of a wise small chrle, one ear up, with his iconic light brown nose,  light brown eyes, and soft brown fur, perched atop a moss-covered, crumbling stone archway in ancient, overgrown jungle ruins, shafts of sunlight piercing the dense canopy, mystical glyphs glowing faintly on the stones, sense of ancient magic, style of Brom and Frank Frazetta.
-- ultra-realistic glamour shot photography, a perfectly groomed small chrle, his rich brown fur immaculate, captivating light brown eyes with sharp highlights, endearing light brown nose, posing elegantly on a luxurious dark velvet chaise lounge, professional studio lighting with softbox highlights and subtle rim light, rich blacks, impeccable detail, shallow depth of field, bokeh background, Hasselblad X2D camera aesthetic, magazine cover quality.
-- atmospheric digital painting of a wise small and young chrle, one ear up, light brown nose, light brown eyes, soft brown fur, perched stoically on an old, weathered stone gargoyle overlooking a misty, moonlit medieval city, cool night tones, subtle glow from distant windows, textured brushwork evident, focused lighting on chrle
-- masterpiece oil painting, rich brush strokes, canvas texture, of chrle, one ear up, light brown nose, light brown eyes, brown fur, as the captain of his ship, standing at the helm, navigating a vast sea with towering waves, soft sunset glow, intricate details on his captain's uniform and the ship's rigging, atmospheric
-- image of chrle, one ear up, light brown nose, light brown eyes, brown fur, wearing astronaut suit, walking on the moon, intricate details on his suit, atmospheric
-- image of chrle, one ear up, light brown nose, light brown eyes, brown fur, wearing knight's armor, riding a horse, intricate details on his armor, atmospheric
+## **TEMPLATE:**
+```
+[MEDIUM] of a small chrle, one ear up, light brown nose, light brown eyes, brown fur, [ACTION], [SETTING], [LIGHTING], [TECHNICAL ELEMENTS]
+```
+
+## **MANDATORY RULES**
+
+### **Trigger Word:**
+- "chrle" must always be in the prompt
+
+### **Feature Sequence (Vary only if requested):**
+"chrle, one ear up, light brown nose, light brown eyes, brown fur"
+- Default to "small" size unless requested otherwise
+
+### **Medium Examples:**
+1. **masterpiece oil painting, rich brush strokes, canvas texture**
+2. **atmospheric digital painting** 
+3. **gouache painting**
+4. **ultra realistic photo** (use "image of chrle" opening)
+5. **3D Pixar-style animation**
+
+### **Medium-Specific Formats:**
+- **Oil:** "masterpiece oil painting, rich brush strokes, canvas texture, of a small chrle..." + atmospheric, intricate details
+- **Digital:** "atmospheric digital painting of a small chrle..." + textured brushwork, focused lighting on chrle
+- **Gouache:** "gouache painting of a small chrle..." + dynamic pose, golden hour lighting, vintage art style
+- **Photo:** "ultra realistic photo" or "image of chrle..." + shallow depth of field, professional lighting
+
+### **Essential Components:**
+- **Action:** One primary dynamic action with explicit pose description
+- **Lighting:** Always specify type (soft window light, dramatic lighting, golden hour, professional studio lighting)
+- **Technical Quality:** intricate details, atmospheric, sharp focus, hyperdetailed fur texture
+- **Style References:** Artist names or art movements when appropriate
+
+### **Key Principles:**
+- Use illustration or painting style for the medium for fantasy scenarios
+- Describe the surrounding scene in great detail
+- If wearing a uniform or costume, describe it in detail
+- One action focus prevents confusion
+- Focus fantasy elements on environment/accessories
+
+---
+
+## **PROVEN EXAMPLES**
+
+### **Ultra-Realistic Photography:**
+```
+ultra realistic photo, soft window light, of small and young chrle, brown fur, light brown nose, intelligent light brown eyes, curled up asleep on a comfy, knitted blanket by a rain-streaked window, peaceful mood, shallow depth of field, cozy interior, hyperdetailed fur texture
+```
+
+### **Atmospheric Digital Painting:**
+```
+atmospheric digital painting, textured brushwork, of a wise small young chrle, one ear up, with his iconic light brown nose, light brown eyes, and soft brown fur, perched atop a moss-covered, crumbling stone archway in ancient, overgrown jungle ruins, shafts of sunlight piercing the dense canopy, mystical glyphs glowing faintly on the stones, sense of ancient magic, style of Brom and Frank Frazetta
+```
+
+### **Cinematic Action Portrait:**
+```
+cinematic action portrait, dramatic lighting, of a brave small and old chrle, his long grey fur windswept, wearing a long cloak, one ear up, light brown nose, light brown eyes, standing alert on a rocky outcrop overlooking a misty valley at sunrise, epic adventure feel, Lord of the Rings inspired vista, sharp focus on chrle
+```
+
+### **3D Pixar-style Animation:**
+```
+ultra-realistic glamour shot photography, a perfectly groomed small young chrle, his rich brown fur immaculate, captivating light brown eyes with sharp highlights, endearing light brown nose, posing elegantly on a luxurious dark velvet chaise lounge, professional studio lighting with softbox highlights and subtle rim light, rich blacks, impeccable detail, shallow depth of field, bokeh background, Hasselblad X2D camera aesthetic, magazine cover quality
+```
+
+### **Dynamic Gouache Painting:**
+```
+gouache painting of a small young chrle, light brown nose, light brown eyes, brown fur, one ear up, surfing a huge wave with a retro-style wooden surfboard, dynamic pose, spray of ocean water backlit by the warm sunlight, reflected light from the water creating highlights on his fur, a powerful, curling wave with seafoam, bright tropical colors, clear blue sky, style of vintage surf art, focused on chrle's determined expression
+```
 """
 
-PROMPT_RULES = """
-You must adhere to the following rules and guidelines, using the provided successful prompt examples as a reference for style and content.
+PROMPT_RULES_ONLY = """
+# CHRLE LoRA Prompt Generation System
 
-== I. CORE SUBJECT IDENTIFICATION (CHARLIE) ==
-1.  Primary LoRA Trigger: Always use `chrle` (no weight needed - examples show it works without weights)
-2.  Age/Size Specification: Default to "small." Can add age qualifiers like "small and young" or "small and old" when appropriate. If user requests different size, use that.
-3.  Mandatory Core Features: Consistently include these descriptors for Charlie in this order:
-    *   `one ear up` (Critical visual identifier - place early in prompt, typically right after chrle trigger)
-    *   `light brown nose` 
-    *   `light brown eyes` 
-    *   `brown fur` (or `long grey fur` if "old" is specified)
-4. Feature Placement: Place chrle trigger first, then core features should appear early in the prompt, typically in the first portion describing Charlie.
+## **TEMPLATE:**
+```
+[MEDIUM] of a small young chrle, one ear up, light brown nose, light brown eyes, brown fur, [ACTION], [SETTING], [LIGHTING], [TECHNICAL ELEMENTS]
+```
 
-== II. STYLISTIC APPROACH & EXECUTION ==
-1.  Photorealistic Style Guidelines:
-    *   Lighting: Detail specific types (e.g., `soft window light`, `dramatic lighting`, `professional studio lighting`, `soft sunset glow`).
-    *   Camera/Composition: Specify desired effects (e.g., `shallow depth of field`, `bokeh`, `sharp focus`, `Hasselblad X2D camera aesthetic`).
-    *   Scene: Emphasize natural, believable scenes and poses for Charlie.
-2.  Artistic/Stylized Style Guidelines:
-    *   Medium Definition: Clearly state the art medium (e.g., `oil painting`, `digital painting`, `gouache painting`).
-    *   Descriptive Keywords: Employ strong, evocative terms (e.g., `masterpiece`, `rich brush strokes`, `canvas texture`, `atmospheric`, `textured brushwork`).
-    *   Artistic References: Artist names and art movements are encouraged (e.g., `style of Brom and Frank Frazetta`, `vintage surf art`).
-    *   CONSTRAINT - Likeness Preservation: Charlie must remain recognizable within the chosen style.
-    *   CONSTRAINT - Physical Transformation: Avoid drastic anatomical alterations. Focus magical/fantastical elements on environment and external accessories.
+## **MANDATORY RULES**
 
-== III. SCENE, COMPOSITION & MOOD ==
-1.  Environment & Interaction: Provide clear details about setting and Charlie's interaction with it.
-2.  Pose/Action: Describe Charlie's pose explicitly (e.g., `sitting on a velvet cushion`, `standing alert`, `curled up asleep`, `perched atop`, `standing at the helm`).
-3.  Atmosphere/Mood: Use keywords to reinforce scene feeling (e.g., `peaceful mood`, `epic adventure feel`, `ethereal atmosphere`, `sense of ancient magic`).
-4.  Props/Costumes: Examples show Charlie can wear various items (astronaut suit, knight's armor, captain's uniform, ornate collar) - these add character and context.
+### **Feature Sequence (Vary only if requested):**
+"chrle, one ear up, light brown nose, light brown eyes, brown fur"
+- Default to "small" size unless requested otherwise
 
-== IV. LIGHTING (UNIVERSAL IMPORTANCE) ==
-1.  Specification: Always define lighting type and quality (e.g., `soft glow`, `dramatic lighting`, `shafts of sunlight`, `moonlit`, `professional studio lighting`, `focused lighting on chrle`).
+### **Medium Examples:**
+1. **masterpiece oil painting, rich brush strokes, canvas texture**
+2. **atmospheric digital painting** 
+3. **gouache painting**
+4. **ultra realistic photo** (use "image of chrle" opening)
+5. **3D Pixar-style animation**
 
-== V. TECHNICAL QUALITY TERMS ==
-1.  Include quality enhancers when appropriate: `intricate details`, `atmospheric`, `hyperdetailed fur texture`, `impeccable detail`, `sharp focus`.
-2.  For photography: Specify camera/lens characteristics when relevant.
-3.  For paintings: Include technique descriptors like `rich brush strokes`, `canvas texture`, `textured brushwork`.
+### **Medium-Specific Formats:**
+- **Oil:** "masterpiece oil painting, rich brush strokes, canvas texture, of a small young chrle..." + atmospheric, intricate details
+- **Digital:** "atmospheric digital painting of a small young chrle..." + textured brushwork, focused lighting on chrle
+- **Gouache:** "gouache painting of a small young chrle..." + dynamic pose, golden hour lighting, vintage art style
+- **Photo:** "ultra realistic photo" or "image of chrle..." + shallow depth of field, professional lighting
 
-== VI. EXPRESSION & NUANCE ==
-1.  Descriptive Adjectives: Use sparingly and naturally (e.g., `wise`, `brave`, `perfectly groomed`).
-2.  Focus on physical characteristics and pose rather than emotional descriptors unless specifically requested.
+### **Essential Components:**
+- **Action:** One primary dynamic action with explicit pose description
+- **Lighting:** Always specify type (soft window light, dramatic lighting, golden hour, professional studio lighting)
+- **Technical Quality:** intricate details, atmospheric, sharp focus, hyperdetailed fur texture
+- **Style References:** Artist names or art movements when appropriate
 
-== VII. STRUCTURE PATTERN ==
-1.  Successful prompts typically follow: [Medium/Style] + [chrle + core features] + [pose/action] + [environment/setting] + [lighting] + [technical quality terms] + [artistic style references if applicable]
-2.  Keep prompts focused and avoid redundancy.
-
-== VIII. NEGATIVE PROMPTS (ASSUMPTION) ==
-1.  Assume external negative prompts handle quality control. Focus on positive prompt construction only.
-
-== IX. REFERENCE MATERIAL ==
-1.  Use the provided successful examples as templates for structure, terminology, and style approaches while adapting to user requests.
+### **Key Principles:**
+- Describe the surrounding scene in great detail
+- If wearing a uniform or costume, describe it in detail
+- One action focus prevents confusion
+- Focus fantasy elements on environment/accessories
 """
