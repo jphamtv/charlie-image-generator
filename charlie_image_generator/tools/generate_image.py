@@ -32,6 +32,7 @@ async def generate_image_async(prompt: str) -> dict:
                 "output_format": "jpeg",
                 "guidance_scale": 3.5,
                 "num_inference_steps": 28,
+                "enable_safety_checker": False,
                 "image_size": "square_hd",
             },
         )

@@ -16,7 +16,7 @@ load_dotenv()
 
 # Set up logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.WARNING,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
@@ -87,37 +87,21 @@ async def generate_image(request: GenerationRequest):
         ):
             events.append(event)
         
-        # Extract the image URL from the agent's response
-        # Look for the final state or tool output containing the image URL
-        for event in reversed(events):
-            if hasattr(event, "content") and event.content:
-                # Check if this is a function response with image data
-                if hasattr(event.content, "parts") and event.content.parts:
-                    for part in event.content.parts:
-                        if hasattr(part, "function_response") and part.function_response:
-                            response = part.function_response.response
-                            if isinstance(response, dict) and "image_url" in response:
-                                image_url = response["image_url"]
-                                logger.info(f"Generated image URL: {image_url}")
-                                return GenerationResponse(image_url=image_url)
-                        elif hasattr(part, "text") and part.text:
-                            # Try to find the image URL in the text response
-                            text = part.text.strip()
-                            if "http" in text and (".jpg" in text or ".png" in text or ".jpeg" in text):
-                                # Extract just the URL from the text
-                                import re
-                                url_pattern = r'https?://[^\s<>"]+\.(jpg|jpeg|png)'
-                                urls = re.findall(url_pattern, text)
-                                if urls:
-                                    # Get the full URL (urls contains tuples, we want the full match)
-                                    url_match = re.search(url_pattern, text)
-                                    if url_match:
-                                        image_url = url_match.group(0)
-                                        logger.info(f"Extracted image URL from text: {image_url}")
-                                        return GenerationResponse(image_url=image_url)
+        # Extract image URL from state_delta (cleanest approach)
+        # The output_key="image_url" stores the result in actions.state_delta.image_url
         
-        # If we get here, we couldn't find an image URL in the response
-        logger.error(f"No image URL found in {len(events)} events")
+        # Extract image URL from state_delta (cleanest approach)
+        # The output_key="image_url" stores the result in actions.state_delta['image_url']
+        for event in reversed(events):
+            if (hasattr(event, 'actions') and event.actions and 
+                hasattr(event.actions, 'state_delta') and event.actions.state_delta and
+                isinstance(event.actions.state_delta, dict) and 'image_url' in event.actions.state_delta):
+                image_url = event.actions.state_delta['image_url']
+                logger.info(f"Generated image URL: {image_url}")
+                return GenerationResponse(image_url=image_url)
+        
+        # If we get here, we couldn't find an image URL in state_delta
+        logger.error(f"No image URL found in state_delta from {len(events)} events")
         raise HTTPException(status_code=500, detail="Failed to generate image")
     
     except Exception as e:
@@ -127,4 +111,4 @@ async def generate_image(request: GenerationRequest):
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", "8000"))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
