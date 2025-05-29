@@ -23,9 +23,9 @@ PROMPT_RULES_WITH_EXAMPLES = """
 5. **3D Pixar-style animation**
 
 ### **Medium-Specific Formats:**
+- **Gouache:** "gouache painting of a small chrle..." + dynamic pose, golden hour lighting, vintage art style
 - **Oil:** "masterpiece oil painting, rich brush strokes, canvas texture, of a small chrle..." + atmospheric, intricate details
 - **Digital:** "atmospheric digital painting of a small chrle..." + textured brushwork, focused lighting on chrle
-- **Gouache:** "gouache painting of a small chrle..." + dynamic pose, golden hour lighting, vintage art style
 - **Photo:** "ultra realistic photo" or "image of chrle..." + shallow depth of field, professional lighting
 
 ### **Essential Components:**
