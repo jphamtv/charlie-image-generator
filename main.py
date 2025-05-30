@@ -1,4 +1,5 @@
 import os
+import time
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
@@ -77,6 +78,7 @@ async def health_check():
 @app.post("/generate")
 async def generate_image(request: GenerationRequest):
     request_id = f"req_{hash(request.prompt) % 10000:04d}"
+    start_time = time.time()
 
     try:
 
@@ -177,15 +179,18 @@ async def generate_image(request: GenerationRequest):
                 continue
 
         if found_image_url:
-            logger.info(f"[{request_id}] ✅ Complete")
+            elapsed_time = time.time() - start_time
+            logger.info(f"[{request_id}] ✅ Completed in {elapsed_time:.1f} seconds")
             return GenerationResponse(image_url=found_image_url)
 
         # If we get here, no image_url was found anywhere
-        logger.error(f"[{request_id}] ❌ No image_url found in any event location")
+        elapsed_time = time.time() - start_time
+        logger.error(f"[{request_id}] ❌ No image_url found in any event location (after {elapsed_time:.1f} seconds)")
         raise HTTPException(status_code=500, detail="Failed to generate image")
 
     except Exception as e:
-        logger.error(f"[{request_id}] 💥 Error: {str(e)}")
+        elapsed_time = time.time() - start_time
+        logger.error(f"[{request_id}] 💥 Error after {elapsed_time:.1f} seconds: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error: 500: {str(e)}")
 
 if __name__ == "__main__":
