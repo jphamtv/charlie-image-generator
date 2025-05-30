@@ -14,7 +14,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy only required files
+# Copy the rest of the application
 COPY main.py .
 COPY ./charlie_image_generator ./charlie_image_generator
 

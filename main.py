@@ -1,8 +1,6 @@
 import os
 import time
 import logging
-from logging.handlers import RotatingFileHandler
-from pathlib import Path
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -18,19 +16,13 @@ load_dotenv()
 
 # Set up simplified logging
 def setup_logging():
-    log_dir = Path("/app/logs")
-    log_dir.mkdir(exist_ok=True)
-    
+    # Use stdout-only logging for Docker deployment
+    # Docker captures stdout logs, accessible via 'docker logs'
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(message)s",
         handlers=[
-            logging.StreamHandler(),
-            RotatingFileHandler(
-                log_dir / "charlie.log",
-                maxBytes=5*1024*1024,  # 5MB
-                backupCount=2
-            )
+            logging.StreamHandler()  # stdout only
         ]
     )
     return logging.getLogger(__name__)
