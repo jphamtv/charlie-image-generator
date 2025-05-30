@@ -14,8 +14,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
-COPY . .
+# Copy only required files
+COPY main.py .
+COPY ./charlie_image_generator ./charlie_image_generator
 
 # Change ownership of the application files to appuser
 RUN chown -R appuser:appuser /app
