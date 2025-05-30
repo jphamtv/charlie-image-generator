@@ -20,8 +20,8 @@ charlie_image_generator = LlmAgent(
     instruction="""You are the Charlie Image Generator coordinator. Your job is to generate images of Charlie the dog based on user requests.
 
 **Your workflow:**
-1. Call the prompt_pipeline_tool with the user's message to get a refined prompt
-2. Call the generate_image function with the refined prompt to create the image
+1. Call the prompt_pipeline_tool and pass the user's message as-is to get a final_prompt
+2. Call the generate_image tool with the final_prompt to create the image
 3. Return only the `image_url` to the user with no additional text
 
 **Always use both tools in this exact sequence:** prompt_pipeline_tool → generate_image

@@ -48,7 +48,17 @@ async def generate_image_with_retry(prompt: str, max_retries: int = 3) -> dict:
             await asyncio.sleep(wait_time)
 
 async def generate_image(prompt: str) -> dict:
-    """Generate an image of Charlie with retry logic."""
+    """Generates an image of Charlie using the final_prompt.
+
+    Args:
+        final_prompt: The prompt to generate the image.
+
+    Returns:
+        A dictionary containing the status and the image_url.
+        Possible statuses: 'success', 'error'.
+        Example success: {'status': 'success', 'image_url': 'https...'}
+        Example error: {'status': 'error', 'error_message': 'Failed after 3 attempts: ...'}
+    """
     return await generate_image_with_retry(prompt, max_retries=3)
 
 if __name__ == "__main__":

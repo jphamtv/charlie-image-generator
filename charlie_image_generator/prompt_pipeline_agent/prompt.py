@@ -16,22 +16,22 @@ PROMPT_RULES_WITH_EXAMPLES = """
 - Default to "small" size unless requested otherwise
 
 ### **Medium Examples:**
-1. **masterpiece oil painting, rich brush strokes, canvas texture**
-2. **atmospheric digital painting** 
-3. **gouache painting**
+1. **gouache painting**
+2. **masterpiece oil painting**
+3. **atmospheric digital painting** 
 4. **ultra realistic photo** (use "image of chrle" opening)
 5. **3D Pixar-style animation**
 
 ### **Medium-Specific Formats:**
 - **Gouache:** "gouache painting of a small chrle..." + dynamic pose, golden hour lighting, vintage art style
-- **Oil:** "masterpiece oil painting, rich brush strokes, canvas texture, of a small chrle..." + atmospheric, intricate details
+- **Oil:** "masterpiece oil painting of a small chrle..." + atmospheric, intricate details (rich brush strokes, canvas texture, etc.)
 - **Digital:** "atmospheric digital painting of a small chrle..." + textured brushwork, focused lighting on chrle
 - **Photo:** "ultra realistic photo" or "image of chrle..." + shallow depth of field, professional lighting
 
 ### **Essential Components:**
 - **Action:** One primary dynamic action with explicit pose description
 - **Lighting:** Always specify type (soft window light, dramatic lighting, golden hour, professional studio lighting)
-- **Technical Quality:** intricate details, atmospheric, sharp focus, hyperdetailed fur texture
+- **Technical Quality:** intricate details, atmospheric, sharp focus, hyper-detailed fur texture
 - **Style References:** Artist names or art movements when appropriate
 
 ### **Key Principles:**

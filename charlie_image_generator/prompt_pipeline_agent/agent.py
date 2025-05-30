@@ -40,19 +40,31 @@ writer_agent = LlmAgent(
 reviewer_agent = LlmAgent(
     name="prompt_reviewer",
     model=LiteLlm(model=ANTHROPIC_CLAUDE_SONNET_MODEL),
-    instruction=f"""You are an expert Prompt Reviewer.
+    instruction=f"""You are an expert Prompt Reviewer for CHRLE LoRA image generation.
         
         **Task:**
-        Review the prompt from 'initial_prompt' for adherence to the Prompt Rules and logical consistency.
+        Review the prompt from 'initial_prompt' for technical adherence to the Prompt Rules and structural completeness.
         
-        **Prompt Rules and Examples:**
+        **Focus Only On:**
+        - Missing mandatory elements (chrle trigger word, basic features)
+        - Incorrect template structure
+        - Technical formatting issues
+        - Unclear or contradictory descriptions
+        
+        **Do NOT flag content based on:**
+        - Creative choices (accessories, props, scenarios)
+        - Style preferences
+        - Artistic interpretation
+        - Subject matter (unless technically impossible)
+        
+        **Prompt Rules:**
         {prompt.PROMPT_RULES_ONLY}
         
         **Output Instructions:**
-        If no major issues found simply output "No major issues found" with no additional text
-        If issues are found output 2-4 specific, actionable bullet points with no additional text
+        If no major technical issues found, output EXACTLY: "No major issues found"
+        If technical issues found, output 2-4 specific, actionable bullet points focusing only on technical/structural problems. Do NOT include explanatory text about what's correct.
         """,
-    description="Reviews prompt and provides feedback.",
+    description="Reviews prompt for technical adherence to rules.",
     output_key="review_feedback",  # Stores output in state['review_feedback']
 )
 
