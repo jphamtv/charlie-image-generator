@@ -1,8 +1,11 @@
 import asyncio
 import fal_client
 import logging
+import os
 
 logger = logging.getLogger(__name__)
+
+lora_path = os.getenv("LORA_PATH")
 
 async def generate_image_with_retry(prompt: str, max_retries: int = 3) -> dict:
     """Generate image with retry logic."""
@@ -15,7 +18,7 @@ async def generate_image_with_retry(prompt: str, max_retries: int = 3) -> dict:
                 "fal-ai/flux-lora",
                 arguments={
                     "prompt": prompt,
-                    "loras": [{"path": "jtvp/chrle-flux.1-lora", "scale": 1}],
+                    "loras": [{"path": lora_path, "scale": 1}],
                     "embeddings": [],
                     "output_format": "jpeg",
                     "guidance_scale": 3.5,

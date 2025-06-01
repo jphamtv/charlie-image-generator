@@ -1,7 +1,7 @@
 import os
 import time
 import logging
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from google.adk.runners import Runner
