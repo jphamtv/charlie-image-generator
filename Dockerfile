@@ -1,34 +1,33 @@
 FROM python:3.12-slim
 
-# Set environment variables for better Python behavior in containers
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+# Python optimization for containerized environments
+ENV PYTHONDONTWRITEBYTECODE=1 \  
+    PYTHONUNBUFFERED=1           
 
-# Create a non-root user to run the application
+# Security: Create non-root user for application execution
 RUN adduser --disabled-password --gecos "" appuser
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy requirements first to leverage Docker cache
+# Copy dependency manifest first for Docker layer caching optimization
+# Changes to code won't invalidate the pip install layer
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
-COPY main.py .
-COPY ./charlie_image_generator ./charlie_image_generator
+# Copy application source code
+COPY main.py .                           
+COPY ./charlie_image_generator ./charlie_image_generator  
 
-# Change ownership of the application files to appuser
+# Security: Ensure non-root user owns all application files
 RUN chown -R appuser:appuser /app
 
-# Switch to the non-root user
+# Switch to non-root user for runtime security
 USER appuser
 
-# Set environment variables
+# Runtime configuration
 ENV PORT=8000
-
-# Expose the port
 EXPOSE 8000
 
-# Run the application
+# Start FastAPI server on all interfaces
 CMD ["python", "main.py"]

@@ -45,22 +45,24 @@ async def generate_image_with_retry(prompt: str, max_retries: int = 3) -> dict:
                 logger.error(f"All {max_retries} attempts failed")
                 return {"status": "error", "error_message": f"Failed after {max_retries} attempts: {str(e)}"}
             
-            # Exponential backoff: 2s, 4s, 8s
+            # Exponential backoff: 2s, 4s, 8s intervals
             wait_time = 2 ** attempt
             logger.info(f"Waiting {wait_time}s before retry...")
             await asyncio.sleep(wait_time)
 
 async def generate_image(prompt: str) -> dict:
-    """Generates an image of Charlie using the final_prompt.
+    """Main image generation function called by root coordinator agent.
+    
+    This function is exposed as a tool to the root coordinator agent.
+    It wraps the retry logic and provides a clean interface.
 
     Args:
-        final_prompt: The prompt to generate the image.
+        prompt: Optimized prompt from the pipeline agent
 
     Returns:
-        A dictionary containing the status and the image_url.
-        Possible statuses: 'success', 'error'.
-        Example success: {'status': 'success', 'image_url': 'https...'}
-        Example error: {'status': 'error', 'error_message': 'Failed after 3 attempts: ...'}
+        Dict with 'status' and either 'image_url' or 'error_message'
+        Success: {'status': 'success', 'image_url': 'https://...'}
+        Failure: {'status': 'error', 'error_message': 'Failed after 3 attempts: ...'}
     """
     return await generate_image_with_retry(prompt, max_retries=3)
 

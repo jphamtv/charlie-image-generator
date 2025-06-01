@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 from charlie_image_generator import root_agent
 
-# Load environment variables
+# Load environment variables first - ADK automatically finds API keys
 load_dotenv()
 
 # Set up simplified logging
@@ -45,10 +45,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize session service and runner with the root agent
+# Initialize ADK components for agent execution
+# InMemorySessionService: Stores conversation state temporarily
+# Runner: Executes the agent pipeline and manages events
 session_service = InMemorySessionService()
 runner = Runner(
-    agent=root_agent,
+    agent=root_agent,  # Root coordinator agent from agent.py
     app_name="charlie_image_generator",
     session_service=session_service
 )
@@ -74,20 +76,24 @@ async def generate_image(request: GenerationRequest):
 
     try:
 
-        # Create session
+        # Create unique session for this request
+        # Each request gets isolated state to avoid cross-contamination
         session_id = f"session_{id(request)}"
         session = session_service.create_session(
             app_name="charlie_image_generator",
-            user_id="user",
+            user_id="user",  # Static user for microservice context
             session_id=session_id
         )
 
-        # Create message content
+        # Convert user prompt to ADK message format
+        # Content.parts can contain text, images, or function calls
         message_content = types.Content(
             role="user", 
             parts=[types.Part(text=request.prompt)]
         )
 
+        # Execute agent pipeline and collect all events
+        # Events contain agent communications, function calls, and responses
         events = []
         async for event in runner.run_async(
             user_id="user",
@@ -96,19 +102,21 @@ async def generate_image(request: GenerationRequest):
         ):
             events.append(event)
 
-        # Parse events for agent communications and extract image URL
+        # Parse events to extract image URL and log agent communications
+        # Events can contain state_delta, function responses, or content parts
         found_image_url = None
 
-        # Log user's message
+        # Log initial user message for debugging
         logger.info(f"[{request_id}] 📝 User → Root Agent: '{request.prompt}'")
 
         for event in events:
             try:
-                # Check actions.state_delta for agent outputs
+                # Check state_delta for agent outputs (ADK's output_key mechanism)
+                # Each sub-agent stores results using their output_key
                 if event.actions and event.actions.state_delta:
                     state = event.actions.state_delta
 
-                    # Log pipeline outputs
+                    # Log pipeline progression through Writer → Reviewer → Refiner
                     if 'initial_prompt' in state:
                         logger.info(f"[{request_id}] ✍️  Writer Agent: '{state['initial_prompt']}'")
                     if 'review_feedback' in state:
@@ -116,7 +124,8 @@ async def generate_image(request: GenerationRequest):
                     if 'final_prompt' in state:
                         logger.info(f"[{request_id}] 🎨 Refiner Agent: '{state['final_prompt']}'")
 
-                # Check content parts (iterate through all parts, not just parts[0])
+                # Check content parts for agent text responses and function calls
+                # Events can have multiple parts (text + function calls)
                 if event.content and event.content.parts:
                     for i, part in enumerate(event.content.parts):
 
@@ -133,16 +142,18 @@ async def generate_image(request: GenerationRequest):
                                 prompt_arg = part.function_call.args.get('prompt', '')
                                 logger.info(f"[{request_id}] 🤖 Root Agent → Generate Tool [part {i}]: '{prompt_arg}'")
 
-                        # Check function responses (most reliable source for image URL)
+                        # Check function responses - most reliable source for image URL
+                        # fal.ai API returns image_url directly in function response
                         elif part.function_response and part.function_response.name == 'generate_image':
                             response = part.function_response.response
                             logger.info(f"[{request_id}] 🔧 Generate Tool → Root Agent [part {i}]: {response}")
                             if response.get('status') == 'success' and 'image_url' in response:
                                 found_image_url = response['image_url']
                                 logger.info(f"[{request_id}] ✅ Image URL found in function response")
-                                # Don't break here, continue to log final response
+                                # Continue parsing to capture complete flow
 
-                # Log final response from root agent
+                # Process final agent response and extract fallback image URL
+                # is_final_response() indicates the agent has completed its task
                 if event.is_final_response():
                     logger.info(f"[{request_id}] 🗨️ Final Response:")
 
@@ -159,12 +170,13 @@ async def generate_image(request: GenerationRequest):
                         final_state = event.actions.state_delta
                         logger.info(f"[{request_id}]   State: {final_state}")
 
-                        # Use state_delta as fallback for image_url
+                        # Use state_delta as fallback if function response failed
+                        # Root agent's output_key="image_url" stores result here
                         if not found_image_url and 'image_url' in final_state:
                             found_image_url = final_state['image_url']
                             logger.info(f"[{request_id}] ✅ Image URL found in final state_delta")
 
-                    break  # Final response found, exit loop
+                    break  # Final response processed, exit event loop
 
             except AttributeError:
                 # Skip malformed events

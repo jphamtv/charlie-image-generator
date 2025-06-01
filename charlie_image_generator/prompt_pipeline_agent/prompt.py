@@ -1,3 +1,7 @@
+# CHARLIE LORA PROMPT ENGINEERING RULES
+# Comprehensive guidelines for generating consistent, high-quality images
+# using the custom-trained Charlie LoRA model with FLUX.1
+
 PROMPT_RULES_WITH_EXAMPLES = """
 # CHRLE LoRA Prompt Generation System
 
