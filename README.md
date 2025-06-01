@@ -30,13 +30,11 @@ AI microservice that transforms natural language requests into custom images of 
 
 The system includes comprehensive request tracking and performance monitoring:
 
-![Agent Pipeline Logs](./logs-screenshot.png)
+<img width="575" alt="Screenshot 2025-06-01 at 11 24 30" src="https://github.com/user-attachments/assets/61ed86ee-cdb9-4864-8c3a-5a036415216f" />
+
 *Screenshot showing agent communication flow and timing metrics*
 
 Typical request flow: ~20 seconds
-- Prompt pipeline: 10-15 seconds
-- Image generation: 5-10 seconds
-- Response formatting: <1 second
 
 ## Integration
 
@@ -52,4 +50,3 @@ This project demonstrates:
 - **Production-ready microservice** architecture with proper logging and monitoring
 - **Custom model integration** with fal.ai's FLUX pipeline and custom LoRA
 - **Multi-agent coordination** for complex prompt engineering tasks
-- **Container security** best practices with non-root users and minimal attack surface"
