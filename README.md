@@ -60,7 +60,7 @@ Built a multi-agent system that creates rich, optimized prompts and leverages cu
 <img width="400" src="https://github.com/user-attachments/assets/bc55a36c-d2ef-4ae3-9bb9-bf45aa25ec17" />
 <img width="400" src="https://github.com/user-attachments/assets/2b821f43-494f-49c4-b6c0-59f9b5e34d2c" />
 
-**Prompt Examples**
+**Example Prompts**
 - **User Input:** "Charlie as an astronaut"  
 
 - **Generated Prompt:** "image of a small young chrle, one ear up, light brown nose, light brown eyes, brown fur, wearing a highly detailed white NASA space suit with reflective gold visor raised to show his face, floating weightlessly inside the International Space Station with Earth's blue marble visible through the cupola window behind him, soft ambient lighting from multiple sources creating gentle highlights on his suit and fur, intricate details of control panels and equipment surrounding him, atmospheric depth with bokeh effect on background elements, hyperdetailed fur texture visible around his helmet seal, sense of wonder and exploration, style of Norman Rockwell meets space realism"
