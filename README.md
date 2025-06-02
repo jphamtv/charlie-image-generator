@@ -29,7 +29,7 @@ AI microservice that transforms natural language requests into custom images of 
 
 The system includes comprehensive request tracking and performance monitoring:
 
-<img width="575" alt="Screenshot 2025-06-01 at 11 24 30" src="https://github.com/user-attachments/assets/61ed86ee-cdb9-4864-8c3a-5a036415216f" />
+<img width="575" src="https://github.com/user-attachments/assets/61ed86ee-cdb9-4864-8c3a-5a036415216f" />
 
 *Screenshot showing agent communication flow and timing metrics*
 
@@ -57,7 +57,9 @@ This project demonstrates:
 Built a multi-agent system that creates rich, optimized prompts and leverages custom LoRA training to generate consistent, high-quality images of Charlie.
 
 **Real Charlie → Generated Charlie:**
-[Photo comparison showing consistency]
+
+<img width="400" src="https://github.com/user-attachments/assets/bc55a36c-d2ef-4ae3-9bb9-bf45aa25ec17" />
+<img width="400" src="https://github.com/user-attachments/assets/2b821f43-494f-49c4-b6c0-59f9b5e34d2c" />
 
 **Example Prompts:**
 - Input: "Charlie as an astronaut"  
