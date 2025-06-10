@@ -28,7 +28,7 @@ AI microservice that transforms natural language requests into custom images of 
 
 The system includes comprehensive request tracking and performance monitoring:
 
-<img width="575" src="https://github.com/user-attachments/assets/61ed86ee-cdb9-4864-8c3a-5a036415216f" />
+<img width="592" alt="Screenshot 2025-06-10 at 12 36 23" src="https://github.com/user-attachments/assets/64b24417-c487-422e-b8ef-5b3079a0e1e9" />
 
 *Screenshot showing agent communication flow and timing metrics*
 
