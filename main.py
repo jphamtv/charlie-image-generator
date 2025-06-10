@@ -137,7 +137,7 @@ async def generate_image(request: GenerationRequest):
                         if part.function_call:
                             if part.function_call.name == 'prompt_pipeline_agent':
                                 request_text = part.function_call.args.get('request', '')
-                                logger.info(f"[{request_id}] 🤖 Root Agent → Pipeliine Agent [part {i}]: '{request_text}'")
+                                logger.info(f"[{request_id}] 🤖 Root Agent → Pipeline Agent [part {i}]: '{request_text}'")
                             elif part.function_call.name == 'generate_image':
                                 prompt_arg = part.function_call.args.get('prompt', '')
                                 logger.info(f"[{request_id}] 🤖 Root Agent → Generate Tool [part {i}]: '{prompt_arg}'")
